@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class CelestialBody : IXmlSerializable
 {
-    public static readonly float M_EARTH = 5.972e24f;
-    public static readonly float M_JUPITER = 1.898e27f;
-    public static readonly float M_SUN = 1.989e30f;
+    public static readonly double M_EARTH = 5.972e24;
+    public static readonly double M_JUPITER = 1.898e27;
+    public static readonly double M_SUN = 1.989e30;
 
     public string ID { get; private set; }
 
     public string Name { get; private set; }
 
-    public Vector3 Position { get; private set; }
+    public Vector3d Position { get; private set; }
 
-    public float Diameter { get; private set; }
+    public double Diameter { get; private set; }
 
-    public float Mass { get; private set; }
+    public double Mass { get; private set; }
 
     #region IXmlSerializable implementation
 
@@ -38,18 +38,18 @@ public class CelestialBody : IXmlSerializable
                     Name = reader.ReadContentAsString();
                     break;
                 case "Position":
-                    float x = float.Parse(reader.GetAttribute("x"));
-                    float y = float.Parse(reader.GetAttribute("y"));
-                    float z = float.Parse(reader.GetAttribute("z"));
-                    Position = new Vector3(x,y,z);
+                    double x = double.Parse(reader.GetAttribute("x"));
+                    double y = double.Parse(reader.GetAttribute("y"));
+                    double z = double.Parse(reader.GetAttribute("z"));
+                    Position = new Vector3d(x,y,z);
                     break;
                 case "Diameter":
                     reader.Read();
-                    Diameter = reader.ReadContentAsFloat();
+                    Diameter = reader.ReadContentAsDouble();
                     break;
                 case "Mass":
                     reader.Read();
-                    Mass = reader.ReadContentAsFloat();
+                    Mass = reader.ReadContentAsDouble();
                     break;
             }
         }

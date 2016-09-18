@@ -4,7 +4,7 @@
     <Body id="planet1">
         <Name>Planet 1</Name>
         <Position x="0" y="0" z="0" />
-        <Diameter>6000</Diameter>
+        <Diameter>6000000</Diameter>
         <Mass>5.972e24</Mass>
     </Body>
 </Bodies>

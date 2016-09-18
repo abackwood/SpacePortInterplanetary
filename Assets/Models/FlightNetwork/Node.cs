@@ -76,8 +76,7 @@ namespace FlightNetwork
             float x = float.Parse(reader.GetAttribute("x"));
             float y = float.Parse(reader.GetAttribute("y"));
             float z = float.Parse(reader.GetAttribute("z"));
-            Vector3 positionInMeters = new Vector3(x, y, z);
-            Position = positionInMeters / 1000;
+            Position = new Vector3(x, y, z);
         }
 
         public void WriteXml(XmlWriter writer)

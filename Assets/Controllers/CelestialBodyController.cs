@@ -42,7 +42,7 @@ public class CelestialBodyController : MonoBehaviour
         GameObject model_go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         model_go.name = "Model";
 
-        model_go.transform.localScale = body.Diameter * Vector3.one;
+        model_go.transform.localScale = (body.Diameter / WorldController.METERS_PER_UNIT) * Vector3d.one;
 
         model_go.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/PlanetMaterial");
 
@@ -53,6 +53,6 @@ public class CelestialBodyController : MonoBehaviour
     {
         GameObject body_go = bodyObjectMap[body];
 
-        body_go.transform.localPosition = body.Position;
+        body_go.transform.localPosition = body.Position / WorldController.METERS_PER_UNIT;
     }
 }

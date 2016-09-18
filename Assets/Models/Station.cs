@@ -13,7 +13,7 @@ public class Station : IXmlSerializable
 
     public string Name { get; private set; }
 
-    public Vector3 Position { get; private set; }
+    public Vector3d Position { get; private set; }
 
     public FlightNetwork.Network FlightNetwork { get; private set; }
 
@@ -52,11 +52,11 @@ public class Station : IXmlSerializable
                     break;
                 case "Orbit":
                     string bodyID = reader.GetAttribute("body");
-                    float height = float.Parse(reader.GetAttribute("height"));
+                    double height = double.Parse(reader.GetAttribute("height"));
                     float inclination = float.Parse(reader.GetAttribute("inclination"));
 
                     CelestialBody body = World.Current.GetCelestialBody(bodyID);
-                    this.Position = body.Position + new Vector3(height, 0, 0);
+                    this.Position = body.Position + new Vector3d(height, 0, 0);
                     break;
                 case "Berths":
                     ReadBerthsXml(reader);

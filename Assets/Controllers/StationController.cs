@@ -49,12 +49,12 @@ public class StationController : MonoBehaviour {
     private GameObject BuildBerthObject(Berth berth)
     {
         GameObject berth_go = new GameObject("Berth - " + berth.Name);
-        berth_go.transform.localPosition = berth.Position;
+        berth_go.transform.localPosition = berth.Position / WorldController.METERS_PER_UNIT;
         berth_go.transform.eulerAngles = berth.Orientation;
 
         GameObject boxMarker = GameObject.CreatePrimitive(PrimitiveType.Cube);
         boxMarker.transform.SetParent(berth_go.transform, false);
-        boxMarker.transform.localScale = berth.Dimensions;
+        boxMarker.transform.localScale = berth.Dimensions / WorldController.METERS_PER_UNIT;
 
         boxMarker.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/BerthMaterial");
 
@@ -80,6 +80,6 @@ public class StationController : MonoBehaviour {
     {
         GameObject station_go = stationObjectMap[station];
 
-        station_go.transform.localPosition = station.Position;
+        station_go.transform.localPosition = station.Position / WorldController.METERS_PER_UNIT;
     }
 }

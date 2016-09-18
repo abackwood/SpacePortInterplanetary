@@ -3,7 +3,7 @@
 <Stations>
     <Station id="station1">
         <Name>Station 1</Name>
-        <Orbit body="planet1" height="3500" inclination="0" />
+        <Orbit body="planet1" height="3500000" inclination="0" />
         <Berths>
             <Berth>
                 <Name>B1</Name>
