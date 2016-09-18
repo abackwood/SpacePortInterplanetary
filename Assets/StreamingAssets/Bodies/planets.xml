@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<Bodies>
+    <Body id="planet1">
+        <Position x="0" y="0" z="0" />
+        <Diameter>6000</Diameter>
+        <Mass>5.972e24</Mass>
+    </Body>
+</Bodies>

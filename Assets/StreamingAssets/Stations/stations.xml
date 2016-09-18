@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Stations>
+    <Station id="station1">
+        <Name>Station 1</Name>
+        <Orbit body="planet1" height="3500" inclination="0" />
+        <Berths>
+            <Berth>
+                <Name>B1</Name>
+                <Node id="b1" />
+                <Position x="0" y="0" z="0" />
+                <Orientation x="0" y="0" z="0" />
+                <Dimensions x="20" y="20" z="50" />
+            </Berth>
+        </Berths>
+        <FlightNetwork>
+            <Nodes>
+                <Node id="a1"  x="0" y="0" z="-26000" approach="true" />
+                <Node id="fa1" x="0" y="0" z="-1000" />
+                <Node id="ds1" x="0" y="0" z="1000" />
+                <Node id="d1"  x="0" y="0" z="6000" departure="true" />
+            </Nodes>
+            <Edges>
+                <Edge type="runway">
+                    <Name>Approach 1</Name>
+                    <Start id="a1" maxSpeed="500" />
+                    <End id="fa1" maxSpeed="50" />
+                    <Diameter>50</Diameter>
+                </Edge>
+                <Edge type="parking">
+                    <Name>B1 Final</Name>
+                    <Start id="fa1" maxSpeed="50" />
+                    <End id="b1" maxSpeed="5" />
+                    <Diameter>20</Diameter>
+                </Edge>
+                <Edge type="parking">
+                    <Name>B1 Outbound</Name>
+                    <Start id="b1" maxSpeed="5" />
+                    <End id="ds1" maxSpeed="50" />
+                    <Diameter>20</Diameter>
+                </Edge>
+                <Edge type="runway">
+                    <Name>Departure 1</Name>
+                    <Start id="ds1" maxSpeed="50" />
+                    <End id="d1" maxSpeed="100" />
+                    <Diameter>50</Diameter>
+                </Edge>
+            </Edges>
+        </FlightNetwork>
+    </Station>
+</Stations>
