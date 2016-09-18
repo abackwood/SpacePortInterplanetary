@@ -69,6 +69,7 @@ public class StationController : MonoBehaviour {
         lineRenderer.SetVertexCount(2);
         lineRenderer.SetPosition(0, edge.Start.Position);
         lineRenderer.SetPosition(1, edge.End.Position);
+        lineRenderer.SetWidth(0.001f, 0.001f);
         lineRenderer.material = Resources.Load<Material>("Materials/FlightEdgeMaterial");
         lineRenderer.useWorldSpace = false;
 

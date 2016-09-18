@@ -76,17 +76,13 @@ namespace FlightNetwork
             float x = float.Parse(reader.GetAttribute("x"));
             float y = float.Parse(reader.GetAttribute("y"));
             float z = float.Parse(reader.GetAttribute("z"));
-            Position = new Vector3(x, y, z);
+            Vector3 positionInMeters = new Vector3(x, y, z);
+            Position = positionInMeters / 1000;
         }
 
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteStartElement("Node");
-            writer.WriteAttributeString("id", ID);
-            writer.WriteAttributeString("x", Position.x.ToString());
-            writer.WriteAttributeString("y", Position.y.ToString());
-            writer.WriteAttributeString("z", Position.z.ToString());
-            writer.WriteEndElement();
+            throw new System.NotImplementedException();
         }
 
         #endregion

@@ -10,6 +10,8 @@ public class CelestialBody : IXmlSerializable
 
     public string ID { get; private set; }
 
+    public string Name { get; private set; }
+
     public Vector3 Position { get; private set; }
 
     public float Diameter { get; private set; }
@@ -31,6 +33,10 @@ public class CelestialBody : IXmlSerializable
         {
             switch(reader.Name)
             {
+                case "Name":
+                    reader.Read();
+                    Name = reader.ReadContentAsString();
+                    break;
                 case "Position":
                     float x = float.Parse(reader.GetAttribute("x"));
                     float y = float.Parse(reader.GetAttribute("y"));

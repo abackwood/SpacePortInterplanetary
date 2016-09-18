@@ -48,7 +48,8 @@ public class Berth
                     float x = float.Parse(reader.GetAttribute("x"));
                     float y = float.Parse(reader.GetAttribute("y"));
                     float z = float.Parse(reader.GetAttribute("z"));
-                    Position = new Vector3(x,y,z);
+                    Vector3 vectorInMeters = new Vector3(x,y,z);
+                    Position = vectorInMeters / 1000;
                     break;
                 case "Orientation":
                     x = float.Parse(reader.GetAttribute("x"));
@@ -60,7 +61,8 @@ public class Berth
                     x = float.Parse(reader.GetAttribute("x"));
                     y = float.Parse(reader.GetAttribute("y"));
                     z = float.Parse(reader.GetAttribute("z"));
-                    Dimensions = new Vector3(x,y,z);
+                    vectorInMeters = new Vector3(x,y,z);
+                    Dimensions = vectorInMeters / 1000;
                     break;
             }
         }
