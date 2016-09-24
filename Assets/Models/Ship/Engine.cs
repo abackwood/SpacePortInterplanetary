@@ -31,6 +31,15 @@ namespace SPI.Ship
             this.Diameter = proto.Diameter;
         }
 
+        public Engine(Engine proto)
+        {
+            this.ID = proto.ID;
+            this.Position = proto.Position;
+            this.Orientation = proto.Orientation;
+            this.MaxThrust = proto.MaxThrust;
+            this.Diameter = proto.Diameter;
+        }
+
         #region IXmlSerializable implementation
 
         public System.Xml.Schema.XmlSchema GetSchema()

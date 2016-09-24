@@ -13,9 +13,13 @@ public class World
 
     public static World Current { get; private set; }
 
+    public event Ship.ShipEventHandler ShipCreated;
+
+    private Dictionary<string,Ship> shipPrototypes;
+
     private Dictionary<string,CelestialBody> celestialBodies;
     private Dictionary<string,Station> stations;
-    private Dictionary<string,Ship> shipPrototypes;
+    private List<Ship> ships;
 
     public ICollection<CelestialBody> Bodies
     {
@@ -33,6 +37,14 @@ public class World
         }
     }
 
+    public ICollection<Ship> Ships
+    {
+        get
+        {
+            return new List<Ship>(ships);
+        }
+    }
+
     public World()
     {
         if (Current != null)
@@ -41,13 +53,18 @@ public class World
         }
         Current = this;
 
-        celestialBodies = new Dictionary<string,CelestialBody>();
-        stations = new Dictionary<string,Station>();
         shipPrototypes = new Dictionary<string,Ship>();
 
+        celestialBodies = new Dictionary<string,CelestialBody>();
+        stations = new Dictionary<string,Station>();
+        ships = new List<Ship>();
+
         LoadWorld();
+
+        CreateShip("planetary_shuttle", new Vector3d(6000000, 0, 0));
     }
 
+    #region getters
     public CelestialBody GetCelestialBody(string id)
     {
         if (celestialBodies.ContainsKey(id) == false)
@@ -80,7 +97,23 @@ public class World
 
         return shipPrototypes[type];
     }
+    #endregion
 
+    public Ship CreateShip(string type, Vector3d position)
+    {
+        Ship ship = new Ship(GetShipPrototype(type), position);
+
+        if (ShipCreated != null)
+        {
+            ShipCreated(ship);
+        }
+
+        ships.Add(ship);
+
+        return ship;
+    }
+
+    #region loading world
     private void LoadWorld()
     {
         LoadCelestialBodies();
@@ -215,4 +248,5 @@ public class World
             Debug.LogError("ReadShipsXml -- Ship tag not found: " + reader.Name);
         }
     }
+    #endregion
 }

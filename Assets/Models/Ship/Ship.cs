@@ -11,9 +11,9 @@ namespace SPI.Ship
 
         public event ShipEventHandler ShipChanged;
 
-        private Dictionary<string,Engine> engines;
         private Vector3d _Position;
         private Vector3 _Direction;
+        private Dictionary<string,Engine> engines;
 
         public string Type { get; private set; }
 
@@ -63,6 +63,14 @@ namespace SPI.Ship
             }
         }
 
+        public ICollection<Engine> Engines
+        {
+            get
+            {
+                return new List<Engine>(engines.Values);
+            }
+        }
+
         public Ship(string type)
         {
             this.Type = type;
@@ -74,8 +82,14 @@ namespace SPI.Ship
             this.Type = proto.Type;
             this.Name = proto.Name;
             this.DryMass = proto.DryMass;
-            this.Position = position;
             this.DryCenterOfMass = proto.DryCenterOfMass;
+            this.engines = new Dictionary<string,Engine>();
+            foreach (string engineID in proto.engines.Keys)
+            {
+                this.engines.Add(engineID, new Engine(proto.engines[engineID]));
+            }
+
+            this.Position = position;
         }
 
         #region IXmlSerializable implementation

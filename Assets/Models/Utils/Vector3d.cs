@@ -31,13 +31,15 @@ public struct Vector3d
 
     public override bool Equals(object obj)
     {
-        if (obj.GetType().Equals(typeof(Vector3d)))
+        if (obj.GetType().Equals(typeof(Vector3d)) == false)
         {
             return false;
         }
-
-        Vector3d v = (Vector3d)obj;
-        return v != null && x == v.x && y == v.y && z == v.z;
+        else
+        {
+            Vector3d v = (Vector3d)obj;
+            return x == v.x && y == v.y && z == v.z;
+        }
     }
 
     public override int GetHashCode()

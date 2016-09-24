@@ -1,35 +1,15 @@
 fileFormatVersion: 2
 guid: 5409390e2567e804cb691c3f8ee61941
-timeCreated: 1474722057
+timeCreated: 1474745907
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
-    100002: aux_engine
-    100004: main_engine
-    100006: planetary_shuttle
-    100008: reverse_engine
     400000: //RootNode
-    400002: aux_engine
-    400004: main_engine
-    400006: planetary_shuttle
-    400008: reverse_engine
     2300000: //RootNode
-    2300002: aux_engine
-    2300004: main_engine
-    2300006: planetary_shuttle
-    2300008: reverse_engine
     3300000: //RootNode
-    3300002: aux_engine
-    3300004: main_engine
-    3300006: planetary_shuttle
-    3300008: reverse_engine
-    4300000: Cylinder
-    4300002: planetary_shuttle
-    4300004: aux_engine
-    4300006: main_engine
-    4300008: reverse_engine
+    4300000: planetary_shuttle
     7400000: Default Take
     9500000: //RootNode
   materials:
