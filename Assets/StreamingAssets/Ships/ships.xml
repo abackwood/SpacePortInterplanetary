@@ -1,0 +1,102 @@
+<Ships>
+    <Ship id="planetary_shuttle">
+        <Name>Planetary Shuttle</Name>
+        <DryMass>10000</DryMass>
+        <CenterOfMass x="0" y="0" z="0" />
+        <EnginePrototypes>
+            <Engine id="aux_engine">
+                <Thrust>50</Thrust>
+                <Diameter>0.4</Diameter>
+            </Engine>
+        </EnginePrototypes>
+        <Engines>
+            <Engine id="main">
+                <Position x="0" y="0" z="-15" />
+                <Orientation x="0" y="0" z="-1" />
+                <Thrust>10000</Thrust>
+                <Diameter>2</Diameter>
+            </Engine>
+            <Engine id="reverse">
+                <Position x="0" y="0" z="15" />
+                <Orientation x="0" y="0" z="1" />
+                <Thrust>2500</Thrust>
+                <Diameter>0.75</Diameter>
+            </Engine>
+
+            <Engine id="left_bow">
+                <Position x="-3.5" y="0" z="10" />
+                <Orientation x="-1" y="0" z="0" />
+                <Thrust>50</Thrust>
+                <Diameter>0.4</Diameter>
+            </Engine>
+            <Engine id="left_bow_up">
+                <Position x="-3.5" y="0" z="10" />
+                <Orientation x="0" y="1" z="0" />
+                <Thrust>50</Thrust>
+                <Diameter>0.4</Diameter>
+            </Engine>
+            <Engine id="left_bow_down">
+                <Position x="-3.5" y="0" z="10" />
+                <Orientation x="0" y="-1" z="0" />
+                <Thrust>50</Thrust>
+                <Diameter>0.4</Diameter>
+            </Engine>
+
+            <Engine id="right_bow">
+                <Position x="3.5" y="0" z="10" />
+                <Orientation x="-1" y="0" z="0" />
+                <Thrust>50</Thrust>
+                <Diameter>0.4</Diameter>
+            </Engine>
+            <Engine id="right_bow_up">
+                <Position x="3.5" y="0" z="10" />
+                <Orientation x="0" y="1" z="0" />
+                <Thrust>50</Thrust>
+                <Diameter>0.4</Diameter>
+            </Engine>
+            <Engine id="right_bow_down">
+                <Position x="3.5" y="0" z="10" />
+                <Orientation x="0" y="-1" z="0" />
+                <Thrust>50</Thrust>
+                <Diameter>0.4</Diameter>
+            </Engine>
+
+            <Engine id="left_stern">
+                <Position x="-3.5" y="0" z="-10" />
+                <Orientation x="-1" y="0" z="0" />
+                <Thrust>50</Thrust>
+            </Engine>
+            <Engine id="left_stern_up">
+                <Position x="-3.5" y="0" z="-10" />
+                <Orientation x="0" y="1" z="0" />
+                <Thrust>50</Thrust>
+                <Diameter>0.4</Diameter>
+            </Engine>
+            <Engine id="left_stern_down">
+                <Position x="-3.5" y="0" z="-10" />
+                <Orientation x="0" y="-1" z="0" />
+                <Thrust>50</Thrust>
+                <Diameter>0.4</Diameter>
+            </Engine>
+
+            <Engine id="right_stern">
+                <Position x="3.5" y="0" z="-10" />
+                <Orientation x="-1" y="0" z="0" />
+                <Thrust>50</Thrust>
+                <Diameter>0.4</Diameter>
+            </Engine>
+            <Engine id="right_stern_up">
+                <Position x="3.5" y="0" z="-10" />
+                <Orientation x="0" y="1" z="0" />
+                <Thrust>50</Thrust>
+                <Diameter>0.4</Diameter>
+            </Engine>
+            <Engine id="right_stern_down">
+                <Position x="3.5" y="0" z="-10" />
+                <Orientation x="0" y="-1" z="0" />
+                <Thrust>50</Thrust>
+                <Diameter>0.4</Diameter>
+            </Engine>
+        </Engines>
+    </Ship>
+</Ships>
