@@ -29,6 +29,16 @@ public struct Vector3d
         this.z = z;
     }
 
+    public static bool operator ==(Vector3d a, Vector3d b)
+    {
+        return a.x == b.x && a.y == b.y && a.z == b.z;
+    }
+
+    public static bool operator !=(Vector3d a, Vector3d b)
+    {
+        return !(a == b);
+    }
+
     public static Vector3d operator +(Vector3d a, Vector3d b)
     {
         return new Vector3d(
