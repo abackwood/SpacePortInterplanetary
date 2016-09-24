@@ -7,7 +7,13 @@ namespace SPI.Ship
 {
     public class Ship : IXmlSerializable
     {
+        public delegate void ShipEventHandler(Ship ship);
+
+        public event ShipEventHandler ShipChanged;
+
         private Dictionary<string,Engine> engines;
+        private Vector3d _Position;
+        private Vector3 _Direction;
 
         public string Type { get; private set; }
 
@@ -15,9 +21,47 @@ namespace SPI.Ship
 
         public float DryMass { get; private set; }
 
-        public Vector3 DryCenterOfMass { get; set; }
+        public Vector3 DryCenterOfMass { get; private set; }
 
-        public Vector3d Position { get; set; }
+        public Vector3d Position
+        {
+            get
+            {
+                return _Position;
+            }
+
+            set
+            {
+                if (_Position != value)
+                {
+                    _Position = value;
+                    if (ShipChanged != null)
+                    {
+                        ShipChanged(this);
+                    }
+                }
+            }
+        }
+
+        public Vector3 Direction
+        {
+            get
+            {
+                return _Direction;
+            }
+
+            set
+            {
+                if (_Direction != value)
+                {
+                    _Direction = value;
+                    if (ShipChanged != null)
+                    {
+                        ShipChanged(this);
+                    }
+                }
+            }
+        }
 
         public Ship(string type)
         {
