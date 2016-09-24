@@ -3,7 +3,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using UnityEngine;
 
-namespace Ship
+namespace SPI.Ship
 {
     public class Engine : IXmlSerializable
     {

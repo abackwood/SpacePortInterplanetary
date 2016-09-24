@@ -1,7 +1,7 @@
 <Ships>
-    <Ship id="planetary_shuttle">
+    <Ship type="planetary_shuttle">
         <Name>Planetary Shuttle</Name>
-        <DryMass>10000</DryMass>
+        <Mass>10000</Mass>
         <CenterOfMass x="0" y="0" z="0" />
         <EnginePrototypes>
             <Engine id="aux_engine">

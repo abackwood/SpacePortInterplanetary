@@ -3,16 +3,19 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using UnityEngine;
+using SPI.Ship;
 
 public class World
 {
     public static readonly string BODIES_DIR = "Bodies";
     public static readonly string STATIONS_DIR = "Stations";
+    public static readonly string SHIPS_DIR = "Ships";
 
     public static World Current { get; private set; }
 
     private Dictionary<string,CelestialBody> celestialBodies;
     private Dictionary<string,Station> stations;
+    private Dictionary<string,Ship> shipPrototypes;
 
     public ICollection<CelestialBody> Bodies
     {
@@ -40,6 +43,7 @@ public class World
 
         celestialBodies = new Dictionary<string,CelestialBody>();
         stations = new Dictionary<string,Station>();
+        shipPrototypes = new Dictionary<string,Ship>();
 
         LoadWorld();
     }
@@ -66,13 +70,26 @@ public class World
         return stations[id];
     }
 
+    public Ship GetShipPrototype(string type)
+    {
+        if (shipPrototypes.ContainsKey(type) == false)
+        {
+            Debug.LogError("GetShipPrototype -- No prototype for: " + type);
+            return null;
+        }
+
+        return shipPrototypes[type];
+    }
+
     private void LoadWorld()
     {
         LoadCelestialBodies();
         LoadStations();
+        LoadShipPrototypes();
 
         Debug.Log("Bodies loaded: " + celestialBodies.Count);
         Debug.Log("Stations loaded: " + stations.Count);
+        Debug.Log("Ship prototypes loaded: " + shipPrototypes.Count);
     }
 
     private void LoadCelestialBodies()
@@ -94,25 +111,6 @@ public class World
                     Debug.LogError("LoadCelestialBodies -- Bodies tag not found: " + reader.Name);
                 }
             }
-        }
-    }
-
-    private void ReadBodiesXml(XmlReader parentReader)
-    {
-        XmlReader reader = parentReader.ReadSubtree();
-        if (reader.ReadToDescendant("Body"))
-        {
-            do
-            {
-                CelestialBody body = new CelestialBody();
-                body.ReadXml(reader);
-                celestialBodies.Add(body.ID, body);
-            }
-            while(reader.ReadToNextSibling("Body"));
-        }
-        else
-        {
-            Debug.LogError("ReadBodiesXml -- Body tag not found: " + reader.Name);
         }
     }
 
@@ -138,6 +136,47 @@ public class World
         }
     }
 
+    private void LoadShipPrototypes()
+    {
+        string shipsPath = Path.Combine(Application.streamingAssetsPath, SHIPS_DIR);
+        string[] files = Directory.GetFiles(shipsPath);
+        foreach (string file in files)
+        {
+            if (Path.GetExtension(file) == ".xml")
+            {
+                XmlReader reader = XmlReader.Create(file);
+
+                if (reader.ReadToDescendant("Ships"))
+                {
+                    ReadShipsXml(reader);
+                }
+                else
+                {
+                    Debug.LogError("LoadShipPrototypes -- Ships tag not found: " + reader.Name);
+                }
+            }
+        }
+    }
+
+    private void ReadBodiesXml(XmlReader parentReader)
+    {
+        XmlReader reader = parentReader.ReadSubtree();
+        if (reader.ReadToDescendant("Body"))
+        {
+            do
+            {
+                CelestialBody body = new CelestialBody();
+                body.ReadXml(reader);
+                celestialBodies.Add(body.ID, body);
+            }
+            while(reader.ReadToNextSibling("Body"));
+        }
+        else
+        {
+            Debug.LogError("ReadBodiesXml -- Body tag not found: " + reader.Name);
+        }
+    }
+
     private void ReadStationsXml(XmlReader parentReader)
     {
         XmlReader reader = parentReader.ReadSubtree();
@@ -154,6 +193,26 @@ public class World
         else
         {
             Debug.LogError("ReadStationsXml -- Station tag not found: " + reader.Name);
+        }
+    }
+
+    private void ReadShipsXml(XmlReader parentReader)
+    {
+        XmlReader reader = parentReader.ReadSubtree();
+        if (reader.ReadToDescendant("Ship"))
+        {
+            do
+            {
+                string shipType = reader.GetAttribute("type");
+                Ship prototype = new Ship(shipType);
+                prototype.ReadPrototypeXml(reader);
+                shipPrototypes.Add(shipType, prototype);
+            }
+            while(reader.ReadToNextSibling("Ship"));
+        }
+        else
+        {
+            Debug.LogError("ReadShipsXml -- Ship tag not found: " + reader.Name);
         }
     }
 }

@@ -3,26 +3,35 @@ using System.Xml;
 using System.Xml.Serialization;
 using UnityEngine;
 
-namespace Ship
+namespace SPI.Ship
 {
     public class Ship : IXmlSerializable
     {
         private Dictionary<string,Engine> engines;
 
-        public string ID { get; private set; }
+        public string Type { get; private set; }
 
         public string Name { get; private set; }
 
+        public float DryMass { get; private set; }
+
+        public Vector3 DryCenterOfMass { get; set; }
+
         public Vector3d Position { get; set; }
 
-        public float DryMass { get; set; }
-
-        public Vector3 CenterOfMass { get; set; }
-
-        public Ship(string id)
+        public Ship(string type)
         {
-            this.ID = id;
+            this.Type = type;
             engines = new Dictionary<string,Engine>();
+        }
+
+        public Ship(Ship proto, Vector3d position)
+        {
+            this.Type = proto.Type;
+            this.Name = proto.Name;
+            this.DryMass = proto.DryMass;
+            this.Position = position;
+            this.DryCenterOfMass = proto.DryCenterOfMass;
         }
 
         #region IXmlSerializable implementation
@@ -63,7 +72,7 @@ namespace Ship
                         float x = float.Parse(reader.GetAttribute("x"));
                         float y = float.Parse(reader.GetAttribute("y"));
                         float z = float.Parse(reader.GetAttribute("z"));
-                        CenterOfMass = new Vector3(x,y,z);
+                        DryCenterOfMass = new Vector3(x,y,z);
                         break;
                     case "Engines":
                         ReadEnginesXml(reader);
