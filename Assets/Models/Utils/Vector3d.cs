@@ -29,14 +29,30 @@ public struct Vector3d
         this.z = z;
     }
 
+    public override bool Equals(object obj)
+    {
+        if (obj.GetType().Equals(typeof(Vector3d)))
+        {
+            return false;
+        }
+
+        Vector3d v = (Vector3d)obj;
+        return v != null && x == v.x && y == v.y && z == v.z;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+
     public static bool operator ==(Vector3d a, Vector3d b)
     {
-        return a.x == b.x && a.y == b.y && a.z == b.z;
+        return a.Equals(b);
     }
 
     public static bool operator !=(Vector3d a, Vector3d b)
     {
-        return !(a == b);
+        return a.Equals(b) == false;
     }
 
     public static Vector3d operator +(Vector3d a, Vector3d b)
