@@ -44,7 +44,7 @@
 
             <Engine id="right_bow">
                 <Position x="3.5" y="0" z="10" />
-                <Orientation x="-1" y="0" z="0" />
+                <Orientation x="1" y="0" z="0" />
                 <Thrust>50</Thrust>
                 <Diameter>0.4</Diameter>
             </Engine>
@@ -81,7 +81,7 @@
 
             <Engine id="right_stern">
                 <Position x="3.5" y="0" z="-10" />
-                <Orientation x="-1" y="0" z="0" />
+                <Orientation x="1" y="0" z="0" />
                 <Thrust>50</Thrust>
                 <Diameter>0.4</Diameter>
             </Engine>

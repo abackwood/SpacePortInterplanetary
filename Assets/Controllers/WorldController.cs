@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class WorldController : MonoBehaviour {
-    public static readonly float METERS_PER_UNIT = 1000;
+    public static readonly float METERS_PER_UNIT = 1;
     public static WorldController Instance { get; private set; }
 
     public World World { get; private set; }

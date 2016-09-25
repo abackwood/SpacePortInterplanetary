@@ -5,6 +5,7 @@ using SPI.Ship;
 
 public class ShipController : MonoBehaviour {
     public GameObject parentObject;
+    public GameObject enginePrefab;
 
     private Dictionary<string,Mesh> meshes;
     private Dictionary<Ship,GameObject> shipObjectMap;
@@ -60,15 +61,15 @@ public class ShipController : MonoBehaviour {
     {
         GameObject ship_go = new GameObject("Ship");
 
-        GameObject model_go = new GameObject("Model");
+        GameObject model_go = GameObject.Instantiate(Resources.Load<GameObject>("Models/Ships/" + ship.Type));
         model_go.transform.SetParent(ship_go.transform, false);
         model_go.transform.localScale = Vector3.one / WorldController.METERS_PER_UNIT;
 
-        MeshFilter meshFilter = model_go.AddComponent<MeshFilter>();
-        meshFilter.mesh = GetMeshForType(ship.Type);
+        //MeshFilter meshFilter = model_go.AddComponent<MeshFilter>();
+        //meshFilter.mesh = GetMeshForType(ship.Type);
 
-        MeshRenderer meshRenderer = model_go.AddComponent<MeshRenderer>();
-        meshRenderer.material = Resources.Load<Material>("Materials/ShipMaterial");
+        //MeshRenderer meshRenderer = model_go.AddComponent<MeshRenderer>();
+        //meshRenderer.material = Resources.Load<Material>("Materials/ShipMaterial");
 
         foreach (Engine engine in ship.Engines)
         {
@@ -81,12 +82,24 @@ public class ShipController : MonoBehaviour {
 
     private GameObject BuildEngineObject(Ship ship, Engine engine)
     {
-        GameObject engine_go = new GameObject("Engine - " + engine.ID);
+        GameObject engine_go = GameObject.Instantiate(enginePrefab);
+        engine_go.name = "Engine - " + engine.ID;
         engine_go.transform.localPosition = engine.Position / WorldController.METERS_PER_UNIT;
         engine_go.transform.LookAt(engine_go.transform.position + engine.Orientation);
 
-        ParticleSystem particleSystem = engine_go.AddComponent<ParticleSystem>();
-        particleSystem.maxParticles = 0;
+        ParticleSystem particleSystem = engine_go.GetComponent<ParticleSystem>();
+        particleSystem.startSize = 1f / WorldController.METERS_PER_UNIT;
+        particleSystem.maxParticles = 100;
+
+        ParticleSystem.VelocityOverLifetimeModule volModule = particleSystem.velocityOverLifetime;
+        volModule.x = new ParticleSystem.MinMaxCurve(0,0);
+        volModule.y = new ParticleSystem.MinMaxCurve(0,0);
+        volModule.z = new ParticleSystem.MinMaxCurve(2.5f, 5f);    // Should depend on engine power
+
+        ParticleSystem.ShapeModule shapeModule = particleSystem.shape;
+        shapeModule.shapeType = ParticleSystemShapeType.Cone;
+        shapeModule.radius = engine.Diameter / 2;
+        shapeModule.angle = 0;
 
         return engine_go;
     }
