@@ -7,6 +7,14 @@ namespace SPI.Ship
 {
     public class Engine : IXmlSerializable
     {
+        public delegate void EngineEventHandler(Engine engine);
+
+        public event EngineEventHandler EngineChanged;
+
+        private float _Power;
+
+        public Ship Ship { get; private set; }
+
         public string ID { get; private set; }
 
         public Vector3 Position { get; private set; }
@@ -17,22 +25,43 @@ namespace SPI.Ship
 
         public float Diameter { get; private set; }
 
-        public float Power { get; set; }
+        public float Power
+        {
+            get
+            {
+                return _Power;
+            }
+
+            set
+            {
+                if (_Power != value)
+                {
+                    _Power = value;
+                    if (EngineChanged != null)
+                    {
+                        EngineChanged(this);
+                    }
+                }
+            }
+        }
 
         public Engine(string id)
         {
+            this.Ship = null;
             this.ID = id;
         }
 
         public Engine(string id, Engine proto)
         {
+            this.Ship = null;
             this.ID = id;
             this.MaxThrust = proto.MaxThrust;
             this.Diameter = proto.Diameter;
         }
 
-        public Engine(Engine proto)
+        public Engine(Ship ship, Engine proto)
         {
+            this.Ship = ship;
             this.ID = proto.ID;
             this.Position = proto.Position;
             this.Orientation = proto.Orientation;

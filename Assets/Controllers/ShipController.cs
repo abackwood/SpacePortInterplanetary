@@ -8,7 +8,7 @@ public class ShipController : MonoBehaviour {
     public GameObject enginePrefab;
 
     private Dictionary<string,Mesh> meshes;
-    private Dictionary<Ship,GameObject> shipObjectMap;
+    private Dictionary<Ship,ShipInfo> shipObjectMap;
 
     public Mesh GetMeshForType(string type)
     {
@@ -17,7 +17,7 @@ public class ShipController : MonoBehaviour {
 
 	private void Start () {
         meshes = new Dictionary<string,Mesh>();
-        shipObjectMap = new Dictionary<Ship,GameObject>();
+        shipObjectMap = new Dictionary<Ship,ShipInfo>();
 
         LoadMeshes();
 
@@ -42,42 +42,47 @@ public class ShipController : MonoBehaviour {
 
     private void OnShipCreated(Ship ship)
     {
-        GameObject ship_go = BuildShipObject(ship);
-        ship_go.transform.SetParent(parentObject.transform, false);
-        shipObjectMap.Add(ship, ship_go);
+        ShipInfo shipInfo = BuildShipObject(ship);
+        shipInfo.ShipGO.transform.SetParent(parentObject.transform, false);
+        shipObjectMap.Add(ship, shipInfo);
 
         ship.ShipChanged += OnShipChanged;
     }
 
     private void OnShipChanged(Ship ship)
     {
-        GameObject ship_go = shipObjectMap[ship];
+        GameObject ship_go = shipObjectMap[ship].ShipGO;
 
         ship_go.transform.localPosition = ship.Position / WorldController.METERS_PER_UNIT;
         ship_go.transform.eulerAngles = ship.Direction;
     }
 
-    private GameObject BuildShipObject(Ship ship)
+    private void OnEngineChanged(Engine engine)
     {
-        GameObject ship_go = new GameObject("Ship");
+        GameObject engine_go = shipObjectMap[engine.Ship].EngineMap[engine.ID];
+
+        ParticleSystem ps = engine_go.GetComponent<ParticleSystem>();
+        ps.maxParticles = Mathf.FloorToInt(1000 * engine.Power);
+    }
+
+    private ShipInfo BuildShipObject(Ship ship)
+    {
+        ShipInfo shipInfo = new ShipInfo(new GameObject("Ship"));
 
         GameObject model_go = GameObject.Instantiate(Resources.Load<GameObject>("Models/Ships/" + ship.Type));
-        model_go.transform.SetParent(ship_go.transform, false);
+        model_go.transform.SetParent(shipInfo.ShipGO.transform, false);
         model_go.transform.localScale = Vector3.one / WorldController.METERS_PER_UNIT;
-
-        //MeshFilter meshFilter = model_go.AddComponent<MeshFilter>();
-        //meshFilter.mesh = GetMeshForType(ship.Type);
-
-        //MeshRenderer meshRenderer = model_go.AddComponent<MeshRenderer>();
-        //meshRenderer.material = Resources.Load<Material>("Materials/ShipMaterial");
 
         foreach (Engine engine in ship.Engines)
         {
             GameObject engine_go = BuildEngineObject(ship, engine);
-            engine_go.transform.SetParent(ship_go.transform, false);
+            engine_go.transform.SetParent(shipInfo.ShipGO.transform, false);
+            shipInfo.EngineMap.Add(engine.ID, engine_go);
+
+            engine.EngineChanged += OnEngineChanged;
         }
 
-        return ship_go;
+        return shipInfo;
     }
 
     private GameObject BuildEngineObject(Ship ship, Engine engine)
@@ -89,12 +94,12 @@ public class ShipController : MonoBehaviour {
 
         ParticleSystem particleSystem = engine_go.GetComponent<ParticleSystem>();
         particleSystem.startSize = 1f / WorldController.METERS_PER_UNIT;
-        particleSystem.maxParticles = 100;
+        particleSystem.maxParticles = 0;
 
         ParticleSystem.VelocityOverLifetimeModule volModule = particleSystem.velocityOverLifetime;
         volModule.x = new ParticleSystem.MinMaxCurve(0,0);
         volModule.y = new ParticleSystem.MinMaxCurve(0,0);
-        volModule.z = new ParticleSystem.MinMaxCurve(2.5f, 5f);    // Should depend on engine power
+        volModule.z = new ParticleSystem.MinMaxCurve(1f, 5f);
 
         ParticleSystem.ShapeModule shapeModule = particleSystem.shape;
         shapeModule.shapeType = ParticleSystemShapeType.Cone;
@@ -102,5 +107,18 @@ public class ShipController : MonoBehaviour {
         shapeModule.angle = 0;
 
         return engine_go;
+    }
+
+    private struct ShipInfo
+    {
+        public GameObject ShipGO { get; private set; }
+
+        public Dictionary<string,GameObject> EngineMap { get; private set; }
+
+        public ShipInfo(GameObject ship_go) : this()
+        {
+            this.ShipGO = ship_go;
+            EngineMap = new Dictionary<string,GameObject>();
+        }
     }
 }

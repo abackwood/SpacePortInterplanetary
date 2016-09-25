@@ -86,7 +86,7 @@ namespace SPI.Ship
             this.engines = new Dictionary<string,Engine>();
             foreach (string engineID in proto.engines.Keys)
             {
-                this.engines.Add(engineID, new Engine(proto.engines[engineID]));
+                this.engines.Add(engineID, new Engine(this, proto.engines[engineID]));
             }
 
             this.Position = position;
