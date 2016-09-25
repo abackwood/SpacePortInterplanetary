@@ -61,7 +61,7 @@ public class World
 
         LoadWorld();
 
-        CreateShip("planetary_shuttle", new Vector3d(6000, 0, 0));
+        CreateShip("planetary_shuttle", new Vector3d(0, 0, -60000));
     }
 
     #region getters
