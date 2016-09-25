@@ -50,6 +50,12 @@ public class Station : IXmlSerializable
                     reader.Read();
                     Name = reader.ReadContentAsString();
                     break;
+                case "Position":
+                    double x = double.Parse(reader.GetAttribute("x"));
+                    double y = double.Parse(reader.GetAttribute("y"));
+                    double z = double.Parse(reader.GetAttribute("z"));
+                    Position = new Vector3d(x,y,z);
+                    break;
                 case "Orbit":
                     string bodyID = reader.GetAttribute("body");
                     double height = double.Parse(reader.GetAttribute("height"));
